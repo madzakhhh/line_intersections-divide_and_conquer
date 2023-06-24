@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2021/06/30 14:24:39.000.109,=C:\Users\user\OneDrive\Dokumenti\Embarcadero\Studio\Projects\Project1PCH1.h</Transaction>
+    <Transaction>2021/06/30 14:24:39.000.312,=C:\Users\user\OneDrive\Dokumenti\Embarcadero\Studio\Projects\Unit1.cpp</Transaction>
+    <Transaction>2021/06/30 14:26:39.000.029,C:\Users\user\OneDrive\Dokumenti\Embarcadero\Studio\Projects\Unit1.h=C:\Users\user\OneDrive\Dokumenti\Embarcadero\Studio\Projects\UKG - projekat\main.h</Transaction>
+    <Transaction>2021/06/30 14:26:39.000.029,C:\Users\user\OneDrive\Dokumenti\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\user\OneDrive\Dokumenti\Embarcadero\Studio\Projects\UKG - projekat\main.dfm</Transaction>
+    <Transaction>2021/06/30 14:26:39.000.029,C:\Users\user\OneDrive\Dokumenti\Embarcadero\Studio\Projects\Unit1.cpp=C:\Users\user\OneDrive\Dokumenti\Embarcadero\Studio\Projects\UKG - projekat\main.cpp</Transaction>
+    <Transaction>2021/06/30 14:34:03.000.641,=C:\Users\user\OneDrive\Dokumenti\Embarcadero\Studio\Projects\Unit1.cpp</Transaction>
+    <Transaction>2021/06/30 14:34:08.000.452,C:\Users\user\OneDrive\Dokumenti\Embarcadero\Studio\Projects\Unit1.h=C:\Users\user\OneDrive\Dokumenti\Embarcadero\Studio\Projects\UKG - projekat\pomocna.h</Transaction>
+    <Transaction>2021/06/30 14:34:08.000.452,C:\Users\user\OneDrive\Dokumenti\Embarcadero\Studio\Projects\Unit1.cpp=C:\Users\user\OneDrive\Dokumenti\Embarcadero\Studio\Projects\UKG - projekat\pomocna.cpp</Transaction>
+    <Transaction>2021/06/30 14:39:11.000.448,C:\Users\user\OneDrive\Dokumenti\Embarcadero\Studio\Projects\Project1PCH1.h=C:\Users\user\OneDrive\Dokumenti\Embarcadero\Studio\Projects\UKG - projekat\projekatUKG.h</Transaction>
+    <Transaction>2021/06/30 14:39:37.000.754,C:\Users\user\OneDrive\Dokumenti\Embarcadero\Studio\Projects\Project1.cbproj=C:\Users\user\OneDrive\Dokumenti\Embarcadero\Studio\Projects\Aplikacija.cbproj</Transaction>
+    <Transaction>2021/06/30 14:39:43.000.866,C:\Users\user\OneDrive\Dokumenti\Embarcadero\Studio\Projects\Aplikacija.cbproj=C:\Users\user\OneDrive\Dokumenti\Embarcadero\Studio\Projects\UKG - projekat\Aplikacija.cbproj</Transaction>
+  </Transactions>
+</BorlandProject>

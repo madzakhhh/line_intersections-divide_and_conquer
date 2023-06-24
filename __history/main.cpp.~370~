@@ -1,0 +1,249 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "main.h"
+#include "pomocna.cpp"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TForm1 *Form1;
+//---------------------------------------------------------------------------
+__fastcall TForm1::TForm1(TComponent* Owner)
+	: TForm(Owner)
+{  Slika->Canvas->FillRect(Rect(0,0,Slika->Width,Slika->Height));
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::generisiDuziClick(TObject *Sender)
+{
+    for (int i = 0; i < n; i++) {
+		int X1= rand()%Slika->Width;
+		int X2= rand()%Slika->Width;
+		int Y1=  rand()%Slika->Height;
+		int Y2=  rand()%Slika->Height;
+
+		Tacka t1(X1,Y1);
+		Tacka t2(X2,Y2);
+
+		Duz nova(t1,t2);
+		duzi.push_back(nova);
+		nova.Crtaj(Slika,clBlack);
+	 }
+}
+//---------------------------------------------------------------------------
+ void TForm1::algoritam(){
+
+	vector<Duz> prvi;
+	vector<Duz> drugi;
+	int s=rand() % (duzi.size());
+	Duz p = duzi[s] ;
+	drugi.push_back(p);
+	for (int i = 0; i < duzi.size(); i++) {
+
+		if ((Orijentacija(p.A,p.B,duzi[i].A)) != (Orijentacija(p.A,p.B,duzi[i].B))
+		 && Orijentacija(p.A,p.B,duzi[i].A) !=0  && Orijentacija(p.A,p.B,duzi[i].B)!=0){
+			 //orj kao da se sijeku
+			 if (!daLiSeSijeku(p,duzi[i])) {     //ali se ne sijeku duzi
+				  Tacka s= tackapresjeka(p.A,p.B,duzi[i].A,duzi[i].B);  //naci tacku presejeka s pravom
+				  //tacke.push_back(s);  //dodaj u tacke
+				  if (Orijentacija(p.A,p.B,duzi[i].A)>0) {
+					 Duz zelena(s,duzi[i].A),plava(s,duzi[i].B); //ako je iznad pocetak prave
+					 drugi.push_back(zelena);
+					 prvi.push_back(plava);
+
+				  }
+				  else{  //ako je pocetak duzi ispod p
+					  Duz zelena(s,duzi[i].B),plava(s,duzi[i].A);
+					  drugi.push_back(zelena);
+					  prvi.push_back(plava);
+				  }
+
+
+			 }
+			
+
+		}
+		else //ako su skroz ispod ili iznad
+		{
+		   if (Orijentacija(p.A,p.B,duzi[i].A)<0) {   //ako je duz ispod prave p
+				prvi.push_back(duzi[i]);
+		   }
+		   else {
+				drugi.push_back(duzi[i]);
+		   }
+		}
+        if (daLiSeSijeku(p,duzi[i])) {  //ako se sijeku
+
+			 Tacka s =presjekduzi(p,duzi[i]);   //tacka presjeka sa DUZI
+
+			 if (Orijentacija(p.A,p.B,duzi[i].A)>0) {  //p1 ce biti ispod a p2 iznad
+
+				  Duz p2(s,duzi[i].A),p1( Duz(duzi[i].B,s) ) ;
+				  prvi.push_back(p1);
+				  drugi.push_back(p2);
+
+
+			 }
+			 else {
+				  Duz p2(s,duzi[i].A),p1( Duz(duzi[i].B,s) ) ;
+				  prvi.push_back(p2);
+				  drugi.push_back(p1);
+
+			 }
+
+			 tacke.push_back(s);
+			 s.Crtaj(Slika,clBlack);
+		}
+		
+
+	}
+   p.Crtaj(Slika,clYellow);
+   ShowMessage("pozivam nad plavim");
+   algoritam_rek(prvi);
+   ShowMessage("pozivam nad zelenim");
+   algoritam_rek(drugi);
+
+
+ }
+
+ void TForm1::algoritam_rek(const vector<Duz>& duzi){
+
+
+	if (duzi.size()==1 || (duzi.size()==2 && !(daLiSeSijeku(duzi[0],duzi[1]))))
+		 return ;
+
+	int s=rand() % (duzi.size());
+	Duz p = duzi[s] ;
+	p.Crtaj(Slika,clRed);
+
+	vector<Duz> prvi;
+	vector<Duz> drugi;
+
+
+	for (int i = 0; i < duzi.size(); i++) {
+
+		if ((Orijentacija(p.A,p.B,duzi[i].A)) != (Orijentacija(p.A,p.B,duzi[i].B))  && Orijentacija(p.A,p.B,duzi[i].A) !=0  && Orijentacija(p.A,p.B,duzi[i].B)!=0){
+			 //orjentisani kao da se sijeku
+			 if (!daLiSeSijeku(p,duzi[i])) {     //ali se ne sijeku
+				  Tacka s= tackapresjeka(p.A,p.B,duzi[i].A,duzi[i].B);  //naci tacku presjeka s pravom
+				  //tacke.push_back(s);  //dodaj u tacke
+				  if (Orijentacija(p.A,p.B,duzi[i].A)>0) {
+					 Duz zelena(s,duzi[i].A),plava(s,duzi[i].B); //ako je iznad pocetak prave
+					 //onda je taj dio zelene boje
+					 drugi.push_back(zelena);
+					 prvi.push_back(plava);
+
+				  }
+				  else{  //ako je pocetak duzi ispod p
+					  Duz zelena(s,duzi[i].B),plava(s,duzi[i].A);
+					  drugi.push_back(zelena);
+					  prvi.push_back(plava);
+				  }
+
+			 }
+		}
+		else //ako su skroz ispod ili iznad
+		{
+		   if (Orijentacija(p.A,p.B,duzi[i].A)<0) {   //ako je duz ispod prave p
+				prvi.push_back(duzi[i]);
+		   }
+		   else {
+				drugi.push_back(duzi[i]);
+		   }
+		}
+		if (daLiSeSijeku(p,duzi[i])) {  //ako se sijeku
+
+			 Tacka s =presjekduzi(p,duzi[i]);   //tacka presjeka sa DUZI
+
+			 if (Orijentacija(p.A,p.B,duzi[i].A)>0) {  //p1 ce biti ispod a p2 iznad
+
+				  Duz p2(s,duzi[i].A),p1( Duz(duzi[i].B,s) ) ;
+				  prvi.push_back(p1);
+				  drugi.push_back(p2);
+
+
+			 }
+			 else {
+				  Duz p2(s,duzi[i].A),p1( Duz(duzi[i].B,s) ) ;
+				  prvi.push_back(p2);
+				  drugi.push_back(p1);
+
+			 }
+
+			 tacke.push_back(s);
+			 s.Crtaj(Slika,clBlack);
+		}
+
+
+	}
+
+	for (int i = 0; i < prvi.size(); i++)
+	 prvi[i].Crtaj(Slika,clBlue);
+
+	for (int i = 0; i < drugi.size(); i++) {
+		drugi[i].Crtaj(Slika,clGreen);
+	}
+   //	ShowMessage("dijelila po ovoj");
+	p.Crtaj(Slika,clRed);
+
+   /*
+	if (!(duzi.size()==drugi.size())) {    //ako je ikako dijelila dodaj
+	   drugi.push_back (p);
+
+	}
+   */
+   if (drugi.size()==0 || prvi.size()==0)
+	 return ;
+
+
+	algoritam_rek(prvi);
+	algoritam_rek(drugi);
+
+	return ;
+
+
+
+ }
+
+
+void __fastcall TForm1::algoritamDugmeClick(TObject *Sender)
+{
+
+
+	algoritam();
+	 for (int i = 0; i < tacke.size(); i++) {
+		 tacke[i].Crtaj(Slika,clBlack);
+	 }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::SlikaMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+		  int X, int Y)
+{
+  if (duzicr->Checked) {
+
+	  tacke.push_back(Tacka(X,Y));
+
+	 if (tacke.size()%2!=0  ) {
+		 Tacka pocetna(X,Y);
+		 pocetna.Crtaj(Slika,clRed);
+	 }
+	 else{
+		 Tacka krajnja (X,Y);
+		 krajnja.Crtaj(Slika,clBlue);
+		 Duz nova(tacke[tacke.size()-2],krajnja);
+		 nova.Crtaj(Slika,clBlack);
+		 duzi.push_back(nova);
+	 }
+
+  }
+
+
+}
+//---------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------
+
+

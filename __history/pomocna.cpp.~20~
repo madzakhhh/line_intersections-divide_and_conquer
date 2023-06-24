@@ -1,0 +1,85 @@
+//---------------------------------------------------------------------------
+
+#pragma hdrstop
+#include <cmath>
+#include "pomocna.h"
+
+
+//---------------------------------------------------------------------------
+
+
+int Orijentacija(Tacka A, Tacka B, Tacka C) {
+	double P = 0.5 * (A.x*(B.y-C.y) + B.x*(C.y-A.y) + C.x*(A.y-B.y));
+	if(P > 0)
+	  return -1;
+	else if (P==0) {
+      return 0;
+}
+	else return 1;
+}
+
+//---------------------------------------------------------------------------
+
+void Tacka::Crtaj(TImage *Slika, TColor boja) const {
+  Slika->Canvas->Brush->Color = boja;
+  int X = round(x), Y = round(y);
+  Slika->Canvas->Ellipse(Rect(X-3,Y-3,X+3,Y+3));
+  Slika->Canvas->Brush->Color = clWhite;
+}
+
+//---------------------------------------------------------------------------
+
+
+void Duz::Crtaj(TImage *Slika, TColor boja) const {
+
+  Slika->Canvas->Pen->Color = boja;
+  Slika->Canvas->MoveTo(A.x,A.y);
+  Slika->Canvas->LineTo(B.x,B.y);
+  Slika->Canvas->Pen->Color = clBlack;
+  Slika->Canvas->Pen->Width = 2;
+
+}
+
+
+//---------------------------------------------------------------------------
+
+bool daLiSeSijeku(Duz prva, Duz druga) {
+   return (Orijentacija(prva.A, prva.B, druga.A) != Orijentacija(prva.A, prva.B, druga.B)
+	   && Orijentacija(druga.A, druga.B, prva.A) != Orijentacija(druga.A, druga.B, prva.B))
+	   &&((prva.A != druga.A) && (prva.A != druga.B) && (prva.B != druga.A) && (prva.B != druga.B));
+	  }
+
+//--------------------------------------------------------------------
+
+Tacka lineIntersectSeg(Duz pq, Duz ab) {
+  double a = ab.B.y - ab.A.y;
+  double b = ab.A.x - ab.B.x;
+  double c = ab.B.x * ab.A.y - ab.A.x * ab.B.y;
+  double u = fabs(a * pq.A.x + b * pq.A.y + c);
+  double v = fabs(a * pq.B.x + b * pq.B.y + c);
+  return Tacka((pq.A.x * v + pq.B.x * u) / (u+v), (pq.A.y * v + pq.B.y * u) / (u+v));
+
+}
+//--------------------------------------------------------------------
+Tacka tackapresjeka(Tacka A, Tacka B, Tacka C, Tacka D)
+{
+
+	double a1 = B.y - A.y;
+	double b1 = A.x - B.x;
+	double c1 = a1*(A.x) + b1*(A.y);
+
+
+	double a2 = D.y - C.y;
+	double b2 = C.x - D.x;
+	double c2 = a2*(C.x)+ b2*(C.y);
+
+    double determinant = a1*b2 - a2*b1;
+
+	double x = (b2*c1 - b1*c2)/determinant;
+	double y = (a1*c2 - a2*c1)/determinant;
+	return Tacka(x, y);
+	}
+
+
+//---------------------------------------------------------------------------
+#pragma package(smart_init)

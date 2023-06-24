@@ -1,0 +1,48 @@
+//---------------------------------------------------------------------------
+
+#ifndef pomocnaH
+#define pomocnaH
+
+struct Tacka {
+	double x,y;
+	Tacka(double X, double Y):x(X),y(Y) {}
+    Tacka ():x(),y(){}
+	void Crtaj(TImage *Slika, TColor boja  = clWhite) const;
+
+};
+
+//---------------------------------------------------------------------------
+
+
+
+bool operator<(Tacka A, Tacka B) { return A.x < B.x; }
+
+
+//---------------------------------------------------------------------------
+
+
+
+
+Tacka lineLineIntersection(Tacka A, Tacka B, Tacka C, Tacka D) ;
+
+
+
+struct Duz {
+	Tacka A,B;
+	Duz():A(),B(){}
+	Duz(Tacka a, Tacka b):A(a),B(b){}
+	void Crtaj(TImage *Slika, TColor boja = clBlack) const;
+
+};
+
+int Orijentacija(Tacka A, Tacka B, Tacka C);
+bool daLiSeSijeku(Duz prva, Duz druga) ;
+Tacka lineIntersectSeg(Duz pq, Duz ab);
+bool Duzi_iznad_ispod (Duz prva,Duz druga)  {
+		if ( prva.A.x < druga.A.x ) {
+		   return Orijentacija (druga.A,prva.A,prva.B) > 0;
+		}
+		else return Orijentacija(prva.A,druga.A,druga.B) > 0;
+}
+//---------------------------------------------------------------------------
+#endif
